@@ -1,20 +1,42 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { NavigationContainer } from '@react-navigation/native'
-import HomeNavigation from './HomeNavigation'
-import LoginScreen from '../screens/Account/Login'
-import OnBoarding from '../screens/OnBoardin'
+import React from "react";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeNavigation from './HomeNavigation';
+import LoginScreen from '../screens/Account/Login';
+
+const Stack = createNativeStackNavigator();
 
 const AppNavigation = ({ initialRoute }) => {
-    const Stack = createNativeStackNavigator()
-
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName={initialRoute}>
-                <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="Home" component={HomeNavigation} />
+                <Stack.Screen 
+                    name="Login" 
+                    component={LoginScreen} 
+                    options={({ route }) => ({ headerTitle: 'Inicia sesion' })}
+                />
+                <Stack.Screen 
+                    name="Home" 
+                    component={HomeNavigation} 
+                    options={({ route }) => ({ headerTitle: getHeaderTitle(route) })}
+                />
             </Stack.Navigator>
         </NavigationContainer>
-    )
+    );
 }
 
-export default AppNavigation
+function getHeaderTitle(route) {
+    // Obtén el nombre de la pantalla actual
+    const routeName = route.state ? route.state.routes[route.state.index].name : 'Home';
+    // Mapea el nombre de la pantalla al título deseado
+    switch (routeName) {
+        case 'HOME':
+            return 'Inicio';
+        case 'account':
+            return 'Cuenta';
+        default:
+            return 'Ordenes de Proteccion';
+    }
+}
+
+export default AppNavigation;

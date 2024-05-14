@@ -7,7 +7,7 @@ const Page = () => {
     return <View>
         <Text>Page</Text>
         <Button
-            title="Log out"
+            title="Cerrar Sesion"
             // navigation reset allows us to reset the navigation hierarchy
             // and set 'Login' as the root
             onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })}
