@@ -64,7 +64,7 @@ const onSubmit = async () => {
 return (
     <View style={styles.formContainer}>
 
-        <Text style={styles.txtForm}>Correo Electrónico o Usuario </Text>
+        <Text style={styles.txtForm}>Ingrese su Usuario </Text>
         <Input 
          placeholder="example@email.com"
          containerStyle={styles.inputForm}

@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigation = ({ initialRoute }) => {
     return (
-        <NavigationContainer>
+        <NavigationContainer >
             <Stack.Navigator initialRouteName={initialRoute}>
                 <Stack.Screen 
                     name="Login" 
@@ -18,7 +18,7 @@ const AppNavigation = ({ initialRoute }) => {
                 <Stack.Screen 
                     name="Home" 
                     component={HomeNavigation} 
-                    options={({ route }) => ({ headerTitle: getHeaderTitle(route) })}
+                    options={({ route }) => ({ headerShown: false, headerTitle: getHeaderTitle(route) })}
                 />
             </Stack.Navigator>
         </NavigationContainer>
