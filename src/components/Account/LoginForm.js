@@ -6,6 +6,7 @@ import {  useNavigation } from "@react-navigation/native";
 import Loading from "../Loading.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { BASE_URL } from '../../api.js';
 
 export default function LoginForm(props){
     
@@ -34,7 +35,7 @@ const onSubmit = async () => {
         console.log('entrando');
 
         try {
-            const response = await axios.post("http://192.168.101.137/api/loginApp.php", formData, {
+            const response = await axios.post(BASE_URL+"/loginApp.php", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
