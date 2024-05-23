@@ -53,7 +53,7 @@ export default function InicioAtencion(props){
     </TouchableOpacity>
 
 
-    <TouchableOpacity onPress={()=> navigation.navigate("pago-predial")} >   
+    <TouchableOpacity onPress={()=> navigation.navigate("boletas-lista")} >   
     <Card containerStyle={styles.containerCard}>
       <Image
         style={styles.restaurantImage}

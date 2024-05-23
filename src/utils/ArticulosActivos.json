@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "apartado": "DISPOSCIÓN VIOLENTADA DEL REGLAMENTO DE LIMPA PARA TIJUANA,BAJA CALIFORNIA",
+        "answers": [
+            {
+                "options": 1,
+                "right_ans": "Por no presentar documentación valida que acredite que recolector autorizado recoge sus residuos sólidos urbanos(Art.16)."
+            },
+            {
+                "options": 2,
+                "right_ans": "Por acto u omisión que contribuye al deseo de la vía  pública (Art.17)."
+            },
+            {
+                "options": 3,
+                "right_ans": "Por no mantener limpia la banqueta frente al predio que ocupen (Art.18)."
+            },
+            {
+                "options": 4,
+                "right_ans": "Por no mantener limpias las  áreas verdes frente a su domicilio (art.19)."
+            },
+            {
+                "options": 5,
+                "right_ans": "Por ensuciar la vía  pública o por colocar mercancía en la vía  pública con maniobras de carga o descarga (Art.21)."
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "apartado": "Las personas propietarias,responsables,contratistas y encargados de inmuebles seran responsables de:(Art.22)",
+        "answers": [
+            {
+                "options": 1,
+                "right_ans": "Por no demostrar la disposición final de materiales y escombro"
+            },
+            {
+                "options": 2,
+                "right_ans": "Por no demostrar la disposición final de residuos de manejo especial"
+            },
+            {
+                "options": 3,
+                "right_ans": "Por no demostrar quien les presta los servicios de recolección(autorizados por la autoridad ambiental competente)."
+            },
+            {
+                "options": 4,
+                "right_ans": "Por depositar  material o escombro sobre la vía  pública."
+            }
+        ]
+    }
+]

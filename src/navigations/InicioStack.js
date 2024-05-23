@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import InicioAtencion from "../screens/Index";
-import { AgregarBoletas } from '../screens/Boletas';
+import { AgregarBoletas, ListaBoletas } from '../screens/Boletas';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +36,21 @@ export default function TopRestaurantsStack(){
             },
             }}
             />
+
+            <Stack.Screen 
+            name="boletas-lista"
+            component={ListaBoletas}
+            options={{ title:"Nueva boleta",headerBackTitleVisible: false,
+            headerStyle: {
+                backgroundColor: '#012d4a',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            }}
+            />
+
         </Stack.Navigator>
 
     );
