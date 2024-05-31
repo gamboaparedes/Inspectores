@@ -5,53 +5,54 @@ import { AgregarBoletas, ListaBoletas } from '../screens/Boletas';
 
 const Stack = createStackNavigator();
 
-export default function TopRestaurantsStack(){
-
+export default function TopRestaurantsStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen 
-            name="inicioatencion"
-            component={InicioAtencion}
-            options={{ title:"NAVEGACION",headerBackTitleVisible: false,
-            headerStyle: {
-                backgroundColor: '#012d4a',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            }}
+                name="inicioatencion"
+                component={InicioAtencion}
+                options={{ 
+                    title: "NAVEGACION",
+                    headerBackTitleVisible: false,
+                    headerStyle: {
+                        backgroundColor: '#012d4a',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                }}
             />
-
             <Stack.Screen 
-            name="boletas-add"
-            component={AgregarBoletas}
-            options={{ title:"Nueva boleta",headerBackTitleVisible: false,
-            headerStyle: {
-                backgroundColor: '#012d4a',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            }}
+                name="boletas-add"
+                component={AgregarBoletas}
+                options={{ 
+                    title: "Nueva boleta",
+                    headerBackTitleVisible: false,
+                    headerStyle: {
+                        backgroundColor: '#012d4a',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                }}
             />
-
             <Stack.Screen 
-            name="boletas-lista"
-            component={ListaBoletas}
-            options={{ title:"Nueva boleta",headerBackTitleVisible: false,
-            headerStyle: {
-                backgroundColor: '#012d4a',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-            }}
+                name="boletas-lista"
+                component={ListaBoletas}
+                options={{ 
+                    title: "Lista de boletas",
+                    headerBackTitleVisible: false,
+                    headerStyle: {
+                        backgroundColor: '#012d4a',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                }}
             />
-
         </Stack.Navigator>
-
     );
 }

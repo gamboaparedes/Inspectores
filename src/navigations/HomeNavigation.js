@@ -33,7 +33,6 @@ const HomeNavigation = () => {
               
              >
 
-
             <Tab.Screen 
                 name='HOME' 
                 component={InicioStack}  
