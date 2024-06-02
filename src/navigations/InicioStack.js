@@ -1,11 +1,12 @@
+// InicioStack.js
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import InicioAtencion from "../screens/Index";
-import { AgregarBoletas, ListaBoletas } from '../screens/Boletas';
+import { AgregarBoletas, ListaBoletas, VistaBoletas } from '../screens/Boletas';
 
 const Stack = createStackNavigator();
 
-export default function TopRestaurantsStack() {
+export default function InicioStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen 
@@ -14,13 +15,7 @@ export default function TopRestaurantsStack() {
                 options={{ 
                     title: "NAVEGACION",
                     headerBackTitleVisible: false,
-                    headerStyle: {
-                        backgroundColor: '#012d4a',
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold',
-                    },
+                    headerShown: false,
                 }}
             />
             <Stack.Screen 
@@ -29,13 +24,6 @@ export default function TopRestaurantsStack() {
                 options={{ 
                     title: "Nueva boleta",
                     headerBackTitleVisible: false,
-                    headerStyle: {
-                        backgroundColor: '#012d4a',
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold',
-                    },
                 }}
             />
             <Stack.Screen 
@@ -44,13 +32,14 @@ export default function TopRestaurantsStack() {
                 options={{ 
                     title: "Lista de boletas",
                     headerBackTitleVisible: false,
-                    headerStyle: {
-                        backgroundColor: '#012d4a',
-                    },
-                    headerTintColor: '#fff',
-                    headerTitleStyle: {
-                        fontWeight: 'bold',
-                    },
+                }}
+            />
+            <Stack.Screen 
+                name="boleta-vista"
+                component={VistaBoletas}
+                options={{ 
+                    title: "Informacion de boleta",
+                    headerBackTitleVisible: false,
                 }}
             />
         </Stack.Navigator>

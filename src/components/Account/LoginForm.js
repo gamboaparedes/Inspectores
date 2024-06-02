@@ -26,41 +26,35 @@ const onChange = (e, type) =>{
 
 const onSubmit = async () => {
     if (isEmpty(usuario) || isEmpty(password)) {
-        toastRef.current.show("Todos los campos son obligatorios");
+      toastRef.current.show("Todos los campos son obligatorios");
     } else {
-        setLoading(true);
-        const formData = new FormData();
-        formData.append('usuario', usuario);
-        formData.append('password', password);
-        console.log('entrando');
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('usuario', usuario);
+      formData.append('password', password);
 
-        try {
-            const response = await axios.post(BASE_URL+"/loginApp.php", formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+      try {
+        const response = await axios.post(`${BASE_URL}/loginApp.php`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
 
-            console.log(response.data);
-            if (response.data.success) {
-                const userData = response.data.user;
-                // Aquí guardamos los datos del usuario en AsyncStorage
-                AsyncStorage.setItem('UserData', JSON.stringify(userData));
-                toastRef.current.show("Logeado exitosamente");
-                // Aquí navegamos a la pantalla "account" y pasamos los datos del usuario como parámetros
-               /*  navigation.navigate("account", { userData: userData }); */
-                navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
-            } else {
-                toastRef.current.show("Contraseña o Usuario Incorrecto.");
-            }
-        } catch (error) {
-            console.error("Hubo un problema:", error);
-            toastRef.current.show("Hubo un problema, intentelo mas tarde.");
+        if (response.data.success) {
+          const userData = response.data.user;
+          await AsyncStorage.setItem('UserData', JSON.stringify(userData));
+          toastRef.current.show("Logeado exitosamente");
+          navigation.reset({ index: 0, routes: [{ name: 'Home' }] });
+        } else {
+          toastRef.current.show("Contraseña o Usuario Incorrecto.");
         }
-        setLoading(false);
+      } catch (error) {
+        console.error("Hubo un problema:", error);
+        toastRef.current.show("Hubo un problema, intentelo mas tarde.");
+      }
+      setLoading(false);
     }
-}
-
+  };
 return (
     <View style={styles.formContainer}>
 

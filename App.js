@@ -1,30 +1,31 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppNavigation from './src/navigations/AppNavigation';
-import SplashScreen from './src/screens/SplashScreen'
+import SplashScreen from './src/screens/SplashScreen';
 
 function App() {
-
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isFirstTime, setIsFirstTime] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000);
+    const checkLoginStatus = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('UserData');
+        if (userData !== null) {
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error("Error checking login status:", error);
+      }
+      setIsLoading(false);
+    };
 
-    return () => { clearTimeout(timeout) }
-  }, [])
+    checkLoginStatus();
+  }, []);
 
-  const initialRoute = () => {
-    if (isLoggedIn) return 'Home'
-    if (isFirstTime) return 'OnBoarding'
-
-    return 'Login'
-  }
-
-  if (isLoading) return <SplashScreen />
-  return <AppNavigation initialRoute={initialRoute} />
+  if (isLoading) return <SplashScreen />;
+  
+  return <AppNavigation isLoggedIn={isLoggedIn} />;
 }
 
 export default App;

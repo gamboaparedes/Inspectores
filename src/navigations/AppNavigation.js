@@ -27,7 +27,7 @@ const AppNavigation = ({ initialRoute }) => {
 
 function getHeaderTitle(route) {
     // Obtén el nombre de la pantalla actual
-    const routeName = route.state ? route.state.routes[route.state.index].name : 'Home';
+    const routeName = route.state ? route.state.routes[route.state.index].name : 'HOME';
     // Mapea el nombre de la pantalla al título deseado
     switch (routeName) {
         case 'HOME':
