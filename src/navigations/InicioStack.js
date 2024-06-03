@@ -3,6 +3,8 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import InicioAtencion from "../screens/Index";
 import { AgregarBoletas, ListaBoletas, VistaBoletas } from '../screens/Boletas';
+import {LinearGradient} from 'expo-linear-gradient';
+
 
 const Stack = createStackNavigator();
 
@@ -12,40 +14,57 @@ export default function InicioStack() {
             <Stack.Screen 
                 name="inicioatencion"
                 component={InicioAtencion}
-                options={{ title:"NAVEGACION",headerBackTitleVisible: false,
-                headerStyle: {
-                    backgroundColor: '#012d4a',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
+                options={{ 
+                    title: "NAVEGACION",
+                    headerBackTitleVisible: false,
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    headerBackground: () => (
+                        <LinearGradient
+                            colors={['#26a0fc', '#b5d3fe']} // Colores del degradado lineal
+                            style={{ flex: 1 }}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                        />
+                    ),
                 }}
             />
             <Stack.Screen 
                 name="boletas-add"
                 component={AgregarBoletas}
                 options={{ title:"Nueva boleta",headerBackTitleVisible: false,
-                headerStyle: {
-                    backgroundColor: '#012d4a',
-                },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerBackground: () => (
+                    <LinearGradient
+                        colors={['#26a0fc', '#b5d3fe']} // Colores del degradado lineal
+                        style={{ flex: 1 }}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                    />
+                ),
                 }}
             />
             <Stack.Screen 
                 name="boletas-lista"
                 component={ListaBoletas}
                 options={{ title:"Nueva boleta",headerBackTitleVisible: false,
-                headerStyle: {
-                    backgroundColor: '#012d4a',
-                },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerBackground: () => (
+                    <LinearGradient
+                        colors={['#26a0fc', '#b5d3fe']} // Colores del degradado lineal
+                        style={{ flex: 1 }}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                    />
+                ),
                 }}
             />
             <Stack.Screen 

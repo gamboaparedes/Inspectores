@@ -80,7 +80,7 @@ export default function LoginForm(props) {
 
             <View style={styles.signInButtonContainer}>
               <Text style={styles.signIn}>Iniciar</Text>
-            <LinearGradient colors={['#F97794', '#623aa2']} style={styles.linearGradient}>
+            <LinearGradient colors={['#fd8b2b', '#fd8b2b']} style={styles.linearGradient}>
                 <Icon type="material-community" name="arrow-right" color={"white"} onPress={onSubmit} size={30}/>
             </LinearGradient>
             </View>

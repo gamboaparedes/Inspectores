@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
-import { StyleSheet, View, ScrollView, Text, Image, Dimensions, KeyboardAvoidingView } from "react-native";
-import { Divider } from '@rneui/themed';
+import React, { useRef } from "react";
+import { StyleSheet, View, Text, Image, Dimensions, KeyboardAvoidingView } from "react-native";
 import LoginForm from "../../components/Account/LoginForm";
 import Toast from "react-native-easy-toast";
 
@@ -14,7 +13,7 @@ export default function Login() {
                     <Image source={require("../../../assets/img/topVector.png")} style={styles.topImage} />
                 </View>
                 <View style={styles.helloContainer}>
-                    <Text style={styles.helloText}>Inspecto</Text>
+                    <Text style={styles.helloText}>Inspector</Text>
                 </View>
                 <View>
                     <Text style={styles.signInText}>Inicia Sesion con tu cuenta</Text>
@@ -23,7 +22,7 @@ export default function Login() {
                     <LoginForm toastRef={toastRef} />
                 </View>
                 <Toast ref={toastRef} position="center" opacity={0.9} />
-            <View style={styles.leftVectorContainer}>
+                 <View style={styles.leftVectorContainer}>
                 <Image source={require("../../../assets/img/bottomVector.png")} style={styles.leftVectorImage} />
             </View>
         </View>

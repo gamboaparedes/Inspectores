@@ -28,12 +28,10 @@ const Page = () => {
                 <Card.Title>Bienvenido a la App de Inspectores</Card.Title>
                 <Card.Divider />
                 <Card.Image
-                    style={{ padding: 0 }}
-                    source={{
-                        uri:
-                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                    }}
-                />
+                        style={{ padding: 0 }}
+                        source={require('../../assets/img/john_muir_glacier.jpg')}
+
+                    />
                 <Text style={{ marginBottom: 10 }}>
                     Podrás reportar los lugares por medio de tu ubicación y capturar los datos para consultarlos.
                 </Text>
@@ -47,7 +45,7 @@ const Page = () => {
                     }
                     onPress={handleLogout}
                     buttonStyle={{
-                        borderRadius: 0,
+                        borderRadius: 10,
                         marginLeft: 0,
                         marginRight: 0,
                         marginBottom: 0,
