@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppNavigation from './src/navigations/AppNavigation';
-import SplashScreen from './src/screens/SplashScreen';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,8 +22,11 @@ function App() {
     checkLoginStatus();
   }, []);
 
-  if (isLoading) return <SplashScreen />;
-  
+  if (isLoading) {
+    // Muestra un componente vacío o un indicador de carga para esperar a que termine la verificación
+    return null;
+  }
+
   return <AppNavigation isLoggedIn={isLoggedIn} />;
 }
 

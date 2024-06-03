@@ -11,9 +11,12 @@ const Page = () => {
         try {
             // Elimina los datos de usuario de AsyncStorage
             await AsyncStorage.removeItem('UserData');
-            // Vuelve a la pantalla de inicio de sesión
-            navigation.navigate('Login');
-          } catch (error) {
+            // Reinicia la pila de navegación y navega a la pantalla de inicio de sesión
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+            });
+        } catch (error) {
             console.error("Error al cerrar sesión:", error);
             // Manejar errores
         }

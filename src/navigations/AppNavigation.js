@@ -6,15 +6,16 @@ import LoginScreen from '../screens/Account/Login';
 
 const Stack = createNativeStackNavigator();
 
-const AppNavigation = ({ initialRoute }) => {
+const AppNavigation = ({ isLoggedIn }) => {
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName={initialRoute}>
+            <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
                 <Stack.Screen 
                     name="Login" 
                     component={LoginScreen} 
-                    options={({ route }) => ({ headerTitle: 'Inicia sesion' })}
+                    options={{ headerTitle: 'Inicia sesion', headerShown: false }}
                 />
+                {/* Modificamos la siguiente pantalla Home para que no muestre su pestaña */}
                 <Stack.Screen 
                     name="Home" 
                     component={HomeNavigation} 
@@ -26,9 +27,7 @@ const AppNavigation = ({ initialRoute }) => {
 }
 
 function getHeaderTitle(route) {
-    // Obtén el nombre de la pantalla actual
     const routeName = route.state ? route.state.routes[route.state.index].name : 'HOME';
-    // Mapea el nombre de la pantalla al título deseado
     switch (routeName) {
         case 'HOME':
             return 'Inicio';
