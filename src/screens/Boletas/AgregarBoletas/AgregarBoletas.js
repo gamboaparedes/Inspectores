@@ -1,16 +1,11 @@
 import React,{ useState, useEffect,useRef} from "react";
-import {StyleSheet, View, ScrollView, Alert, Dimensions,Text,KeyboardAvoidingView,Modal ,FlatList} from "react-native";
-import { Icon, Avatar, Image, Input, Button, CheckBox} from '@rneui/themed';
+import {View, ScrollView, Dimensions,Text,KeyboardAvoidingView,Modal ,FlatList} from "react-native";
+import {Input, Button, CheckBox, Icon} from '@rneui/themed';
 
 import articulos from '../../../utils/ArticulosActivos';
-import { map, size , filter} from "lodash";
-
-import * as Permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
-
+import {size} from "lodash";
 import Signature from "../Signature/Signature"; 
 import ContainerPDF from '../printPDF/printPDF';
-
 import  {UploadImagesForm} from '../../Boletas';
 // pruebas de poner todo en una carpeta para ahorrar lineas
 import MapComponent from "./Mapa";
@@ -20,6 +15,10 @@ import { BASE_URL } from '../../../api.js';
 import axios from 'axios';
 import { RadioButton } from 'react-native-paper';
 import Toast from "react-native-easy-toast";
+
+import { styles } from "./AgregarBoletas.styles.js";
+import StepIndicator from './StepIndicator'; 
+
 
 const WidthScreen = Dimensions.get("window").width;
 const heigthScreen = Dimensions.get("window").height;
@@ -45,7 +44,7 @@ export function AgregarBoletas({ route, navigation }) {
 
     const [isVisibleMap, setIsVisibleMap] = useState(false);
     const [isVisibleSign, setIsVisibleSign] = useState(false);
-    const [state, setState] = useState({currentStep:0,steps:['Catalogo', 'Ubicacion', 'Evidencia', 'Reporte']});
+    const [state, setState] = useState({currentStep:0,steps:['Captura', 'Motivos', 'Finalizacion']});
     const [locationRestaurant, setLocationRestaurant] = useState(null);
     const [clasificacionLista, setClasificacionLista] = React.useState('');
     const [idDenuncia, setIdDenuncia] = useState("");
@@ -201,7 +200,6 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
   }
 };
 
-
   const nextPaso =  () => {
 
     if(!Infractor){
@@ -225,7 +223,7 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
 	const { steps, currentStep } = state;
 
     return (
-    <View style={{backgroundColor: '#992449'}}>
+    <View>
       <Toast ref={toastRef} position="center" opacity={0.9}/>
         <Modal animationType="slide" transparent={true} visible={isVisibleMap} onRequestClose={() => setIsVisibleMap(!isVisibleMap)}>
           <View style={styles.centeredView}>
@@ -239,7 +237,6 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
             </View>
           </View>
         </Modal>
-
         <Modal animationType="slide" transparent={true} visible={isVisibleSign} onRequestClose={() => setIsVisibleSign(!isVisibleSign)} >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -249,7 +246,10 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
       </Modal>
 
 
-				<View style={{backgroundColor: '#fff',marginBottom: -10}}>
+				<View>
+            <StepIndicator steps={steps} currentStep={currentStep} />  
+            <View style={styles.separatorLine} />
+
               {currentStep == 0 &&    
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <View style={{height:heigthScreen}}>
@@ -294,12 +294,21 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
               }   
 		          	 
               {currentStep == 1 &&	
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }}  style={{marginBottom: '20%' }}>
-                  <Button title="Regresar" onPress={() => { setState({...state,currentStep: currentStep - 1});}} 
-                  buttonStyle={styles.btnAddRestaurantRegresar}/>
-                  <View  style={{ borderBottomColor: '#992449',  borderBottomWidth: 4, }}/>
-                    <Input placeholder="Infracción Cometida" inputContainerStyle={styles.input} onChange={(e) => setInfraccionCometida(e.nativeEvent.text)} />
-                    <Input placeholder="Observaciones" inputContainerStyle={styles.input} onChange={(e) => setObservaciones(e.nativeEvent.text)} />
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}  style={{marginBottom: '20%', marginTop:10 }}>
+                    <Input 
+                      placeholder="Infracción Cometida" 
+                      inputContainerStyle={[styles.inputContainer]} 
+                      inputStyle={styles.input}
+                      onChange={(e) => setInfraccionCometida(e.nativeEvent.text)}
+                     />
+                   
+                    <Input 
+                      placeholder="Observaciones" 
+                      multiline={true} 
+                      inputContainerStyle={[styles.inputContainer, styles.textArea]} 
+                      inputStyle={styles.input}
+                      onChange={(e) => setObservaciones(e.nativeEvent.text)} 
+                    />
                     <Text style={{ fontSize: 20 }}>Clasificación:</Text>
                     <View style={{ textAlign: 'center', justifyContent: 'space-between', padding: 15 }}>
                         <RadioButton.Group onValueChange={clasificacionLista => setClasificacionLista(clasificacionLista)} value={clasificacionLista}>
@@ -314,6 +323,7 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
                         mismo término que se otorga para que se acredite haber corregido o reparado el daño causado, pudiendo solicitar prórroga
                         a la dirección si la naturaleza del caso lo requiere
                     </Text>
+
                     <Text style={{ fontSize: 20 }}>Nombre y firma de quien lo recibe</Text>
                     <Button
                         title="Realizar Firma" containerStyle={styles.ViewMapBtnContainerCancel}
@@ -325,29 +335,20 @@ const uploadImageStorage = async (IdFolio, IdUsuario) => {
                         title="Guardar" containerStyle={styles.ViewMapBtnContainerCancel} buttonStyle={styles.viewMapBtnCancel}
                         onPress={addBoleta}
                     />
-            </ScrollView>
-        }
+               </ScrollView>
+              }
             
-					{currentStep == 2 &&	
-          	<View style={{height: heigthScreen,  justifyContent: 'space-between', alignSelf: 'center',}}>
-              <ContainerPDF idDenuncia={idDenuncia}/>
-            </View>
-					}
+              {currentStep == 2 &&	
+                <View style={{height: heigthScreen,  justifyContent: 'space-between', alignSelf: 'center',}}>
+                  <ContainerPDF idDenuncia={idDenuncia}/>
+                </View>
+              }
 				</View>
         <Loading isVisible={loading} text="INGRESANDO REGISTRO" />
 			</View>
     )
 }
 
-function ImageRestaurant(props){
-    const { imagenRestaurant } = props;
-    return (
-        <View style={styles.viewPhoto} >
-        <Image source={imagenRestaurant ? {uri: imagenRestaurant} : require("../../../../assets/img/no-image.png") } 
-        style={{ width: WidthScreen, height: 150}} />
-        </View>
-    )
-}
 
 function FormAdd(props){
    const {setRestaurantAddress, 
@@ -361,309 +362,62 @@ function FormAdd(props){
      setNoInterior,
     } = props;
     return(
-        <View>
-            <Input  placeholder="Infractor" inputContainerStyle={styles.input} onChange={ (e) => setInfractor(e.nativeEvent.text)}/>
-            <Input  placeholder="Nombre del Comercio" inputContainerStyle={styles.input} onChange={ (e) => setNombreComercio(e.nativeEvent.text)}/>
-            <Input  placeholder="Calle" inputContainerStyle={styles.input} onChange={ (e) => setCalle(e.nativeEvent.text)}/>
-            <Input  placeholder="No.Exterior" inputContainerStyle={styles.input} onChange={ (e) => setNoExterior(e.nativeEvent.text)}/>
-            <Input  placeholder="No.Interior" inputContainerStyle={styles.input} onChange={ (e) => setNoInterior(e.nativeEvent.text)}/>
-            <Input  
-            placeholder="Ubicacion y referencias" 
-            containerStyle={styles.input}
-            onChange={(e)=> setRestaurantAddress(e.nativeEvent.text)}
-            rightIcon={{
-                type:"material-community",
-                name: "google-maps",
-                color: locationRestaurant ? "#00a680": "#c2c2c2" ,
-                onPress: () => setIsVisibleMap(true),
-            }}
-            />
-            <Input  placeholder="No.Permiso de Operacion" multiline={true} inputContainerStyle={styles.textArea} onChange={ (e) => setRestaurantDescription(e.nativeEvent.text)}/>
-        </View>
-    )
-}
+      <View>
+      <Input 
+        placeholder="Infractor" 
+        inputContainerStyle={styles.inputContainer} 
+        inputStyle={styles.input}
+        onChange={(e) => setInfractor(e.nativeEvent.text)}
+      />
+      <Input 
+        placeholder="Nombre del comercio" 
+        inputContainerStyle={styles.inputContainer} 
+        inputStyle={styles.input}
+        onChange={(e) => setNombreComercio(e.nativeEvent.text)}
+      />
+      <Input 
+        placeholder="Calle" 
+        inputContainerStyle={styles.inputContainer} 
+        inputStyle={styles.input}
+        onChange={(e) => setCalle(e.nativeEvent.text)}
+      />
+      <Input 
+        placeholder="No.Exterior" 
+        inputContainerStyle={styles.inputContainer} 
+        inputStyle={styles.input}
+        onChange={(e) => setNoExterior(e.nativeEvent.text)}
+      />
+      <Input 
+        placeholder="No.Interior" 
+        inputContainerStyle={styles.inputContainer} 
+        inputStyle={styles.input}
+        onChange={(e) => setNoInterior(e.nativeEvent.text)}
+      />
 
-function UploadImage(props){
-    const { toastRef, imageSelected, setImageSelected } = props;
-
-    const ImageSelect = async () => {
-        const resultPermissions = await Permissions.askAsync(
-            Permissions.CAMERA
-        );
-       
-        if (resultPermissions === "denied") {
-            toastRef.current.show("Es necesario aceptar los permisos a la galeria , en caso que lo rechazes es necesario ir a justes y permitir el uso de la galeria"
-            ,3000);
-        }else{
-            const result = await ImagePicker.launchCameraAsync({
-               /*  allowsEditing: true, */
-                aspect: [4,3]
-            });      
-           
-            if(result.cancelled){
-                toastRef.current.show(
-                " Has cerrado la galeria sin seleccionar ninguna imagen",
-                2000);
-            }else{
-                //setImageSelected(result.uri)
-                setImageSelected([...imageSelected, result.uri]);
-            }
-        }
-    }
-
-    const removeImage= (image) =>{
-        Alert.alert(
-            "Eliminar Imagen",
-            "¿Estas seguro que quieres eliminar la imagen?",
-            [
-                {
-                    text: "Cancel",
-                    style: "cancel"
-                },
-                {
-                    text: "Eliminar",
-                    onPress: () => {
-                    setImageSelected(filter(imageSelected, (imageUrl)=> imageUrl !== image));
-                    }
-                }
-            ],
-            { cancelable: false }
-        )
-    }
-
-    return (
-        <View style={styles.viewImage}>
-            {size(imageSelected) < 5 && (
-            <Icon 
-                type="material-community"
-                name="camera"
-                color="#7a7a7a"
-                containerStyle={styles.containerIcon}
-                onPress={ImageSelect}
-                />
-            )}
-            {map(imageSelected, (imageRestaurant, index) => (
-                <Avatar 
-                key={index}
-                style={styles.miniatureStyle}
-                source={{ uri: imageRestaurant }}
-                onPress={()=>removeImage(imageRestaurant)}
-                />
-            ))}
-        </View>
-    )
-}
-
-const styles = StyleSheet.create({
-    titlePrincipal:{
-        fontSize: 18,
-        marginBottom: 10,
-        marginTop: 10,
-        textAlign: "center",
-    },
-    TextoReglamento:{
-        fontSize: 16,
-        marginBottom: 10,
-        marginTop: '10%',
-        textAlign: 'justify',
-    },
-    container:{
-        flex:1,
-        marginTop:'10%'
-      },
-      innerText:{
-        textAlign: 'center',
-        fontWeight: 'bold'
-      },
-      list: {
-        flex:1,
-        padding:10,
-        marginBottom:50
-      },
-      wrapButton:{
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-      },
-      button:{
-        padding: 16,
-        backgroundColor: 'orange'
-      },
-      item:{
-        flexDirection: 'row',
-        marginTop: 8,
-        padding: 4,
-        shadowColor: '#000',
-        shadowOffset:{
-          width:0, height: 2
-        },
-        shadowOpacity: 0.15,
-        shadowRadius: 4,
-        elevation: 5
-      },
-      row: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-        alignItems: "center",
-      },
-      WrapText:{
-        flex:1,
-        marginTop: 16,
-        marginLeft: 8
-      },
+      <Text style={styles.instructionText}>Hacer clic para asignar ubicación</Text>
+      <Icon
+        type="material-community"
+        name="google-maps"
+        size={100}
+        color={locationRestaurant ? "#00a680" : "#c2c2c2"}
+        onPress={() => setIsVisibleMap(true)}
+        containerStyle={styles.iconContainer} // Añadir estilo para centrar el icono
+      />  
+      <Input  
+        placeholder="Referencias" 
+        multiline={true} 
+        inputContainerStyle={[styles.inputContainer, styles.textArea]} 
+        inputStyle={styles.input}
+        onChange={(e) => setRestaurantAddress(e.nativeEvent.text)}
+      />
       
-      title:{
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        textAlign:'justify'
-      },  
-      ckItem:{
-        marginTop:5
-      },
-    ScrollView:{
-        height: "100%",
-
-    },
-    viewForm:{
-        marginLeft: 10,
-        marginRight: 10,
-        width: 500,
-        height: 500,
-        marginBottom: '50%',
-    },
-    viewForm2:{
-      marginBottom: '20%',
-    },
-    input:{
-        marginBottom: 10,
-    },
-    textArea:{
-        height: 100,
-        width: "100%",
-        padding: 0,
-        margin: 0,
-    },
-    btnAddRestaurant:{
-        backgroundColor:"#992449",
-        margin: 20,
-    },
-    btnAddRestaurantRegresar:{
-        backgroundColor:"#B38E5D",
-        margin: 20,
-        borderRadius: 20
-    },
-    viewImage:{
-        flexDirection: "row",
-        marginLeft: 20,
-        marginRight: 20,
-        marginTop: 30,
-    },
-    containerIcon:{
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 10,
-        height: 70,
-        width: 70,
-        backgroundColor: "#e3e3e3",
-    },
-    miniatureStyle:{
-        width: 70,
-        height: 70,
-        marginRight: 10,
-    },
-    viewPhoto:{
-        alignItems: "center",
-        height: 150,
-        marginBottom: 10,
-    },
-    styleContainerForm:{
-        width: "100%",
-        height: heigthScreen,
-    },
-    mapStyle:{
-        width: "90%",
-        height: heigthScreen,
-    },
-    viewMapBtn:{
-        flexDirection: "row",
-        justifyContent: "center",
-        marginTop: '50%',
-        alignSelf: 'center',
-        alignContent: 'center',
-        padding: '20%',
-        paddingHorizontal: 35,
-        margin: 5,
-        borderRadius: 5,
-        alignItems: 'center',
-        position: 'absolute',
-    },
-    viewMapBtn2:{
-        flexDirection: "row",
-        justifyContent: "center",
-        marginTop: 1,
-        alignSelf: 'center',
-        alignContent: 'center',
-        padding: 10,
-        paddingHorizontal: 35,
-        margin: 5,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    ViewMapBtnContainerCancel:{
-        paddingLeft: 5,
-    },
-    viewMapBtnCancel:{
-        backgroundColor: "#a60d0d", 
-    },
-    ViewMapBtnContainerSave:{
-        paddingRight: 5,
-    },
-    viewMapBtnSave:{
-        backgroundColor: "#00a680",
-    },
-    centeredView: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo oscuro transparente
-    },
-    modalView: {
-      width: '90%',
-      height: '80%',
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 20,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
-    },
-    
-      button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-      },
-      buttonOpen: {
-        backgroundColor: "#F194FF",
-      },
-      buttonClose: {
-        backgroundColor: "#2196F3",
-      },
-      textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-      },
-      modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-      }
-    });
+      <Input 
+        placeholder="No.Permiso de Operacion" 
+        multiline={true} 
+        inputContainerStyle={[styles.inputContainer, styles.textArea]} 
+        inputStyle={styles.input}
+        onChange={(e) => setRestaurantDescription(e.nativeEvent.text)}
+      />
+    </View>
+    )
+}

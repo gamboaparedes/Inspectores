@@ -12,20 +12,17 @@ const HomeNavigation = () => {
         <Tab.Navigator
             initialRouteName='account'
             screenOptions={({ route }) => ({
-                headerShown: true,
                 tabBarActiveTintColor: "#26a0fc",
                 tabBarInactiveTintColor: "#646464",
                 tabBarIcon: ({ color, size }) => screenOptions(route, color, size),
-                tabBarLabelStyle: { fontSize: 19 }, // Tamaño del texto
+                tabBarLabelStyle: { fontSize: 17 },
                 tabBarStyle: {
                     backgroundColor: '#FFFFFF',
                     borderRadius: 80,
-                    height: 70,
+                    height: 100,
                     paddingVertical: 10,
-                    marginBottom: 10 
-                }, 
-                tabBarItemStyle: { borderRadius: 40 }, // Estilo de cada ítem de la barra
-                headerTintColor: '#fff',
+                    marginBottom: 10,
+                },
                 headerBackground: () => (
                     <LinearGradient
                         colors={['#26a0fc', '#b5d3fe']}
@@ -37,14 +34,10 @@ const HomeNavigation = () => {
             })}
         >
             <Tab.Screen
-                name='HOME'
-                component={InicioStack}
-                options={{ headerShown: false, tabBarLabel: 'Cuenta' }}
+                name='HOME' component={InicioStack}  options={{ headerShown: false, tabBarLabel: 'Inicio' }}
             />
             <Tab.Screen
-                name='account'
-                component={Page}
-                options={{ title: 'Cuenta' }}
+                name='account' component={Page} options={{ title: 'Cuenta' }}
             />
         </Tab.Navigator>
     )
